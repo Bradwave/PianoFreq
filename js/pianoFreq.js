@@ -1,4 +1,4 @@
-let keys = [];
+let keys = new Map(), keysDictionary = new Map();
 let selected, startPos, finalPos;
 let playing = false;
 
@@ -14,7 +14,7 @@ function setup() {
   createKeys();
 
   // Render loop
-  //noLoop();
+  noLoop();
 }
 
 function windowResized() {
@@ -33,7 +33,7 @@ function windowResized() {
 }
 
 function touchStarted() {
-  selected = -1;
+  selected = undefined;
   keys.forEach(function (k, i) {
     if (k.selected(mouseX, mouseY)) selected = i;
   });
@@ -42,8 +42,8 @@ function touchStarted() {
 
 function touchMoved() {
   finalPos = { x: mouseX, y: mouseY };
-  if (selected > -1) {
-    keys[selected].translate(startPos.x - finalPos.x, startPos.y - finalPos.y);
+  if (selected != undefined) {
+    keys.get(selected).translate(startPos.x - finalPos.x, startPos.y - finalPos.y);
   }
   startPos = finalPos;
 
@@ -53,31 +53,35 @@ function touchMoved() {
 }
 
 function touchEnded() {
-  loop();
-  if (selected > -1) {
+  if (selected != undefined) {
+    loop();
     playing = true;
-    keys[selected].play();
+    keys.get(selected).play();
   }
 }
 
 function keyPressed() {
-  
+  if (keys.has(key)) {
+    loop();
+    playing = true;
+    keys.get(key).play();
+  }
 }
 
 function createKeys() {
-  keys.push(new PianoKey(1, -0.1, true));
-  keys.push(new PianoKey(1.167, -0.1, true));
-  keys.push(new PianoKey(1.332, -0.1, true));
-  keys.push(new PianoKey(1.5, -0.1, true));
-  keys.push(new PianoKey(1.667, -0.1, true));
-  keys.push(new PianoKey(1.833, -0.1, true));
-  keys.push(new PianoKey(2, -0.1, true));
+  keys.set("z", new PianoKey(1, -0.1, true));
+  keys.set("x", new PianoKey(1.167, -0.1, true));
+  keys.set("c", new PianoKey(1.332, -0.1, true));
+  keys.set("v", new PianoKey(1.5, -0.1, true));
+  keys.set("b", new PianoKey(1.667, -0.1, true));
+  keys.set("n", new PianoKey(1.833, -0.1, true));
+  keys.set("m", new PianoKey(2, -0.1, true));
 
-  keys.push(new PianoKey(1.083, -0.1, false));
-  keys.push(new PianoKey(1.25, -0.1, false));
-  keys.push(new PianoKey(1.583, -0.1, false));
-  keys.push(new PianoKey(1.75, -0.1, false));
-  keys.push(new PianoKey(1.917, -0.1, false));
+  keys.set("s", new PianoKey(1.083, -0.1, false));
+  keys.set("d", new PianoKey(1.25, -0.1, false));
+  keys.set("g", new PianoKey(1.583, -0.1, false));
+  keys.set("h", new PianoKey(1.75, -0.1, false));
+  keys.set("j", new PianoKey(1.917, -0.1, false));
 }
 
 function drawLine() {
@@ -92,15 +96,15 @@ function drawLine() {
     if (k.played())
       jumps.push(toScreenX(k.getFrequency()));
   });
-  jumps.sort();
+  jumps.sort((a, b) => a - b);
 
   if (jumps.length > 0) {
     let offset = waveSize * 0.5;
     line(x1, y, jumps[0] - offset, y);
-    for (let j = 0; j < jumps.length - 1; j++) {
+    for (let j = 0; j < jumps.length; j++) {
       line(jumps[j] + offset, y, jumps[j + 1] - offset, y)
     }
-    line(jumps[length] + offset, y, x2, y);
+    line(jumps[jumps.length - 1] + offset, y, x2, y);
   } else {
     line(x1, y, x2, y);
   }
