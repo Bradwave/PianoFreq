@@ -6,13 +6,16 @@ class PianoKey {
      * @param {Number} y Coordinate y (Cartesian coordinate system)
      * @param {Boolean} flat True for a flat (white) key, false otherwise
      */
-    constructor(x = 10, y = 10, flat) {
+    constructor(x = 10, y = 10, flat, letter) {
         // Position (Cartesian coordinate system)
         this.x = x;
         this.y = y;
 
         // Flat or Sharp
         this.flat = flat;
+
+        // Letter
+        this.letter = letter;
 
         // Size
         this.scale = this.flat ? 1 : 0.5;
@@ -78,9 +81,19 @@ class PianoKey {
         strokeWeight(3 - 1 * c);
         fill(255 * (1 - c));
 
-        // Render
-        rect(toScreenX(this.x) - this.width * 0.5, toScreenY(this.y),
-            this.width, this.height);
+        // Position
+        let x = toScreenX(this.x);
+        let y = toScreenY(this.y);
+
+        // Render key
+        rect(x - this.width * 0.5, y, this.width, this.height);
+
+        // Render letter (need fixes)
+        let tSize = waveSize / 3;
+        fill(255 * c);
+        strokeWeight(1 - c);
+        textSize(tSize);
+        text(this.letter, x - this.width / 2 + tSize / 2.5, y + this.height - tSize / 2);
     }
 
     /**

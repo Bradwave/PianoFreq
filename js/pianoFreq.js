@@ -1,6 +1,8 @@
-let keys = new Map(), keysDictionary = new Map();
+let keys = new Map();
 let selected, startPos, finalPos;
 let playing = false;
+
+const synth = new Tone.Synth().toDestination();
 
 function setup() {
   // Canvas
@@ -54,34 +56,38 @@ function touchMoved() {
 
 function touchEnded() {
   if (selected != undefined) {
-    loop();
-    playing = true;
-    keys.get(selected).play();
+    playNote(selected);
   }
 }
 
 function keyPressed() {
-  if (keys.has(key)) {
-    loop();
-    playing = true;
-    keys.get(key).play();
+  if (keys.has(key.toLowerCase())) {
+    playNote(key.toLowerCase());
   }
 }
 
-function createKeys() {
-  keys.set("z", new PianoKey(1, -0.1, true));
-  keys.set("x", new PianoKey(1.167, -0.1, true));
-  keys.set("c", new PianoKey(1.332, -0.1, true));
-  keys.set("v", new PianoKey(1.5, -0.1, true));
-  keys.set("b", new PianoKey(1.667, -0.1, true));
-  keys.set("n", new PianoKey(1.833, -0.1, true));
-  keys.set("m", new PianoKey(2, -0.1, true));
+function playNote(k) {
+  loop();
+  playing = true;
+  keys.get(k).play();
+  synth.triggerAttackRelease(440 * keys.get(k).getFrequency(), "8n");
+}
 
-  keys.set("s", new PianoKey(1.083, -0.1, false));
-  keys.set("d", new PianoKey(1.25, -0.1, false));
-  keys.set("g", new PianoKey(1.583, -0.1, false));
-  keys.set("h", new PianoKey(1.75, -0.1, false));
-  keys.set("j", new PianoKey(1.917, -0.1, false));
+function createKeys() {
+  keys.set("a", new PianoKey(1, -0.1, true, "A"));
+  keys.set("s", new PianoKey(9/8, -0.1, true, "S"));
+  keys.set("d", new PianoKey(5/4, -0.1, true, "D"));
+  keys.set("f", new PianoKey(4/3, -0.1, true, "F"));
+  keys.set("g", new PianoKey(3/2, -0.1, true, "G"));
+  keys.set("h", new PianoKey(5/3, -0.1, true, "H"));
+  keys.set("j", new PianoKey(15/8, -0.1, true, "J"));
+  keys.set("k", new PianoKey(2, -0.1, true, "K"));
+
+  keys.set("w", new PianoKey(1.0625, -0.1, false, "W"));
+  keys.set("e", new PianoKey(1.1875, -0.1, false, "E"));
+  keys.set("t", new PianoKey(1.4167, -0.1, false, "T"));
+  keys.set("y", new PianoKey(1.5833, -0.1, false, "Y"));
+  keys.set("u", new PianoKey(1.7708, -0.1, false, "U"));
 }
 
 function drawLine() {
