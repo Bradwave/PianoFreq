@@ -113,7 +113,6 @@ class PianoKey {
      * Plays the key.
      */
     play() {
-        loop();
         this.t = this.DURATION;
     }
 

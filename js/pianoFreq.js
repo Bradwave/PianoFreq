@@ -66,21 +66,21 @@ function keyPressed() {
   }
 }
 
-function playNote(k) {
+function playNote(k, t = 0) {
   loop();
   playing = true;
   keys.get(k).play();
-  synth.triggerAttackRelease(440 * keys.get(k).getFrequency(), "8n");
+  synth.triggerAttackRelease(440 * keys.get(k).getFrequency(), "8n", Tone.now() + t);
 }
 
 function createKeys() {
   keys.set("a", new PianoKey(1, -0.1, true, "A"));
-  keys.set("s", new PianoKey(9/8, -0.1, true, "S"));
-  keys.set("d", new PianoKey(5/4, -0.1, true, "D"));
-  keys.set("f", new PianoKey(4/3, -0.1, true, "F"));
-  keys.set("g", new PianoKey(3/2, -0.1, true, "G"));
-  keys.set("h", new PianoKey(5/3, -0.1, true, "H"));
-  keys.set("j", new PianoKey(15/8, -0.1, true, "J"));
+  keys.set("s", new PianoKey(9 / 8, -0.1, true, "S"));
+  keys.set("d", new PianoKey(5 / 4, -0.1, true, "D"));
+  keys.set("f", new PianoKey(4 / 3, -0.1, true, "F"));
+  keys.set("g", new PianoKey(3 / 2, -0.1, true, "G"));
+  keys.set("h", new PianoKey(5 / 3, -0.1, true, "H"));
+  keys.set("j", new PianoKey(15 / 8, -0.1, true, "J"));
   keys.set("k", new PianoKey(2, -0.1, true, "K"));
 
   keys.set("w", new PianoKey(1.0625, -0.1, false, "W"));
@@ -162,5 +162,6 @@ function draw() {
   strokeWeight(1);
   keys.forEach(k => k.drawConnections());
 
+  // Keys
   keys.forEach(k => k.drawKey());
 }
