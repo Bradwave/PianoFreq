@@ -125,7 +125,7 @@ function drawWaves() {
       k.fade();
     }
   });
-  if (playing && !keyPlaying) {
+  if (playing && !keyPlaying && !autoPlaying) {
     playing = false;
     noLoop();
   }
@@ -164,4 +164,7 @@ function draw() {
 
   // Keys
   keys.forEach(k => k.drawKey());
+
+  // Auto-play
+  autoPlay();
 }
