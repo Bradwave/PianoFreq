@@ -100,12 +100,18 @@ class PianoKey {
         // rect(x - this.width * 0.5, y, this.width, this.height);
         image(this.img, x - this.width * 0.5, y, this.width, this.height);
 
-        // Render letter (need fixes)
+        // Render letter
         let tSize = waveSize / 3;
         fill(255 * c);
         strokeWeight(1 - c);
         textSize(tSize);
-        text(this.letter, x - this.width / 2 + tSize / 2.5, y + this.height - tSize / 2);
+        text(this.letter, x, y + this.height * 0.85 - tSize / 2);
+
+        // Render frequency
+        fill(255);
+        stroke(0)
+        strokeWeight(5)
+        text(this.x.toFixed(2), x, yOrigin - waveSize / 2);
     }
 
     /**

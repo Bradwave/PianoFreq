@@ -24,6 +24,7 @@ function setup() {
 
   // Font
   textFont('Georgia');
+  textAlign(CENTER);
 
   // Keys
   createKeys();
