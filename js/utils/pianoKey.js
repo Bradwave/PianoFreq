@@ -14,16 +14,27 @@ class PianoKey {
         // Flat or Sharp
         this.flat = flat;
 
+        // Image
+        this.selectImg();
+
         // Letter
         this.letter = letter;
 
         // Size
-        this.scale = this.flat ? 1 : 0.5;
+        this.scale = this.flat ? 0.327 : 0.356;
         this.setSize();
 
         // Wave timer
         this.DURATION = 15;
         this.t = 0;
+    }
+
+    /**
+     * Select a white key if flat, black otherwise, between two version available from each.
+     */
+    selectImg() {
+        this.img = Math.random() > 0.5 ?
+            (this.flat ? flat1 : sharp1) : (this.flat ? flat2 : sharp2);
     }
 
     /**
@@ -55,8 +66,8 @@ class PianoKey {
      * Sets the size of the key according to the coordinate system.
      */
     setSize() {
-        this.width = 0.08 * scaleFactor * this.scale;
-        this.height = 0.25 * scaleFactor * this.scale;
+        this.height = this.img.height * 0.0007 * scaleFactor;
+        this.width = this.height * this.scale;
     }
 
     /**
@@ -67,7 +78,7 @@ class PianoKey {
         let p = toScreen(this.x, this.y);
 
         // Render
-        line(p.x, p.y + 3, p.x,
+        line(p.x, p.y + this.height / 2, p.x,
             yOrigin + (this.t > 0) * this.getAmp() * waveSize * 1.1);
     }
 
@@ -86,7 +97,8 @@ class PianoKey {
         let y = toScreenY(this.y);
 
         // Render key
-        rect(x - this.width * 0.5, y, this.width, this.height);
+        // rect(x - this.width * 0.5, y, this.width, this.height);
+        image(this.img, x - this.width * 0.5, y, this.width, this.height);
 
         // Render letter (need fixes)
         let tSize = waveSize / 3;
@@ -105,8 +117,8 @@ class PianoKey {
         // Position
         let p = toScreen(this.x, this.y);
 
-        return (x - p.x + this.width * 0.5) * (x - p.x - this.width * 0.5) < 0
-            && (y - p.y) * (y - p.y - this.height) < 0;
+        return (x - p.x + this.width * 0.5 - 3) * (x - p.x - this.width * 0.5 + 3) < 0
+            && (y - p.y - 3) * (y - p.y - this.height + 3) < 0;
     }
 
     /**
