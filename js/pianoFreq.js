@@ -2,7 +2,26 @@ let keys = new Map();
 let selected, startPos, finalPos;
 let playing = false;
 
+// Images
+let flat1, flat2, sharp1, sharp2;
+// Animations
+let flatPressed, sharpPressed;
+// Image folder link
+let imgsLink = 'https://bradwave.github.io/PianoFreq/imgs/keys/';
+
 const synth = new Tone.Synth().toDestination();
+
+function preload() {
+  // Static images
+  flat1 = loadImage(imgsLink + 'flat-1.png');
+  flat2 = loadImage(imgsLink + 'flat-2.png');
+  sharp1 = loadImage(imgsLink + 'sharp-1.png');
+  sharp2 = loadImage(imgsLink + 'sharp-2.png');
+
+  // Animated images
+  flatPressed = createImg(imgsLink + 'flat-pressed.gif');
+  sharpPressed = createImg(imgsLink + 'sharp-pressed.gif');
+}
 
 function setup() {
   // Canvas
