@@ -1,6 +1,7 @@
 let keys = new Map();
 let selected, startPos, finalPos;
 let playing = false;
+let autoPlayPause, autoLabel, pSystem, eSystem, rSystem;
 
 // Images
 let flat1, flat2, sharp1, sharp2;
@@ -28,6 +29,16 @@ function setup() {
 
   // Keys
   createKeys();
+  randomTemperament();
+
+  // Interface
+  autoPlayPause = select('#autoPlay');
+  autoLabel = select("#autoLabel");
+  pSystem = select("#pithagorean");
+  nSystem = select("#natural");
+  eSystem = select("#equal");
+  rSystem = select("#random")
+  updateButtons();
 
   // Render loop
   noLoop();
@@ -41,11 +52,22 @@ function windowResized() {
   // Update keys
   keys.forEach(k => k.setSize());
 
-  // Sound
+  // Button
+  updateButtons();
 
   // Redraw
   if (!playing)
     redraw();
+}
+
+function updateButtons() {
+  // let bOffset = autoPlayPause.elt.offsetWidth * 1.2;
+  let bOffset = height * 0.1;
+  autoPlayPause.position(width / 2 - bOffset * 2.4, height * 0.1);
+  rSystem.position(width / 2 - bOffset * 1, height * 0.1);
+  pSystem.position(width / 2, height * 0.1);
+  nSystem.position(width / 2 + bOffset * 1, height * 0.1);
+  eSystem.position(width / 2 + bOffset * 2, height * 0.1);
 }
 
 function touchStarted() {

@@ -13,20 +13,21 @@ let waveSize;
 
 /**
  * Updates the coordinate system.
- * @param {Number} p Number between 0 and 1 (0.7 as default)
+ * @param {Number} xPercentage Number between 0 and 1 (0.7 as default)
+ * @param {Number} yPercentage Number between 0 and 1 (0.33 as default)
  * which the Cartesian unit represented as a percentage of the canvas width 
  */
-function updateSystem(p = 0.7) {
+function updateSystem(xPercentage = 0.7, yPercentage = 0.33) {
     minDim = min(width, height);
 
     // Scale and descale factors
-    percentage = p;
+    percentage = xPercentage;
     scaleFactor = width * percentage;
     descaleFactor = 1.000000 / scaleFactor;
 
     // Origin
     xOrigin = - (1.5 * percentage - 0.5) * width;
-    yOrigin = height * 0.33;
+    yOrigin = height * yPercentage;
 
     // Bounds
     minCartesianY = toCartesianY(height);

@@ -6,7 +6,7 @@ class PianoKey {
      * @param {Number} y Coordinate y (Cartesian coordinate system)
      * @param {Boolean} flat True for a flat (white) key, false otherwise
      */
-    constructor(x = 10, y = 10, flat, letter) {
+    constructor(x = 10, y = 10, flat = true, letter) {
         // Position (Cartesian coordinate system)
         this.x = x;
         this.y = y;
@@ -42,6 +42,24 @@ class PianoKey {
      */
     getFrequency() {
         return this.x;
+    }
+
+    /**
+     * Returns true if flat, false otherwise.
+     */
+    isFlat() {
+        return this.flat;
+    }
+
+    /**
+     * Sets the position of the key in the Cartesian coordinate system.
+     * @param {Number} x Coordinate x
+     * @param {Number} y Coordinate y
+     */
+    setPosition(x, y) {
+        this.x = x == undefined ? 1 : (x < 1 ? 1 : (x > 2 ? 2 : x));
+        this.y = y == undefined ? -0.1 : (y < (minCartesianY - 0.1) ?
+            (minCartesianY - 0.1) : (y > maxCartesianY ? maxCartesianY : y));;
     }
 
     /**

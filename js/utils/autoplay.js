@@ -12,11 +12,17 @@ function instantAutoPlay() {
     }
 }
 
-function startAutoPlay() {
-    autoPlaying = true;
-    startTime = millis();
-    songIndex = 0;
-    loop();
+function toggleAutoPlay() {
+    if (!autoPlaying) {
+        autoPlaying = true;
+        startTime = millis();
+        songIndex = 0;
+        loop();
+        autoLabel.html('&#10539');
+    } else {
+        autoPlaying = false;
+        autoLabel.html('&#10239');
+    }
 }
 
 function autoPlay() {
